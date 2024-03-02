@@ -1,0 +1,33 @@
+p{
+  font-family: "Mukta", sans-serif;
+  color: white;
+}
+.dialog-content {
+  height: 50vh;
+  width: 50vh;
+  background-color: #212121;
+}
+.dialog-actions {
+  background-color: #212121;
+}
+
+.dialog-title {
+  align-self: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+.number {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+<mat-sidenav-container class="example-sidenav-container">
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <span (click)="redirectToMenu()" class="title-center" style="position: sticky">Soundle</span>
+      <div class="btn-div">
+        <button mat-button class="custom-button" (click)="openInfoDialog()">
+          <mat-icon class="material-symbols-outlined">question_mark</mat-icon>
+        </button>
+        <button mat-button class="custom-button" (click)="openStatsDialog()">
+          <mat-icon class="material-symbols-outlined">equalizer</mat-icon>
+        </button>
+        <button mat-button class="custom-button" (click)="openSettingDialog()">
+          <mat-icon class="material-icons">settings</mat-icon>
+        </button>
+        <button mat-button class="custom-button" [matMenuTriggerFor]="menu">
+          <mat-icon class="material-symbols-outlined">person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngIf="IS_USER_LOGGED !== 'false'">Profile</button>
+
+          <button mat-menu-item (click)="redirectToLogin()">Login</button>
+        </mat-menu>
+
+      </div>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<mat-sidenav class="sidenav" #snav mode="side" opened="false">
+  <div class="sidenav-content">
+    <button class="close-sdnv-btn" mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <mat-nav-list>
+      <button mat-button class="custom-sidenav-btn" (click)="redirectToCode()">
+        <mat-icon class="material-symbols-outlined">code</mat-icon>
+        <span class="btn-span">Code</span>
+      </button>
+      <button mat-button class="custom-sidenav-btn" (click)="redirectToDoc()">
+        <mat-icon class="material-symbols-outlined">article</mat-icon>
+        <span class="btn-span">Documentation</span>
+      </button>
+    </mat-nav-list>
+  </div>
+</mat-sidenav>
+<div id="focusTarget" tabindex="-1"></div>
+

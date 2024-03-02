@@ -1,0 +1,59 @@
+.title-center {
+  margin: 0 auto;
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  font-family: "Mukta", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: x-large;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-div {
+  margin-left: auto;
+}
+
+.custom-button {
+  background-color: #212121;
+  color: white;
+  transition: background-color 0.3s ease;
+  font-family: "Mukta", sans-serif;
+  font-size: medium;
+}
+
+.custom-button:hover {
+  background-color: #212121;
+}
+
+.custom-button-left {
+  display: flex;
+  justify-content: center;
+}
+
+.sidenav {
+  width: 10%;
+  background-color: #212121;
+}
+
+.close-sdnv-btn{
+  margin-left: 16px;
+  margin-top: 8px;
+}
+
+.custom-sidenav-btn{
+  margin: 2px;
+  background-color: #212121;
+  color: white;
+  transition: background-color 0.3s ease;
+  font-family: "Mukta", sans-serif;
+  font-size: medium;
+  width: 250px;
+}
+
+.custom-sidenav-btn:hover{
+  background-color: #212121;
+}
+

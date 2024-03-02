@@ -1,0 +1,166 @@
+* {
+  box-sizing: inherit;
+}
+
+.centering {
+  text-align: center;
+}
+
+h1{
+  font-weight: bolder;
+}
+
+.answer-module {
+  text-align: center;
+  border-radius: 15px;
+  width: 500px;
+  overflow: hidden;
+  padding: 10px 30px;
+  box-sizing: border-box;
+}
+
+.absoluteCenter {
+  margin: auto;
+  position: fixed;
+  top: 8%;
+  left: 0;
+  right: 0;
+}
+
+.popup-title h1 {
+  font-size: 40px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+.popup-title p {
+  font-size: 16px;
+  width: 95%;
+  line-height: 1.25em;
+  margin-bottom: 0.2em;
+}
+
+.popup-streak {
+  height: 42px;
+  margin-bottom: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  width: 100%;
+}
+
+.popup-streak div {
+  text-align: left;
+}
+
+.popup-streak span {
+  display: block;
+}
+
+.popup-player {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.popup-player img {
+  width: 150px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.inner-player-flex {
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  height: 150px;
+  padding-left: 32px;
+  text-align: left;
+  width: calc(100% - 200px);
+}
+
+.inner-player-flex h3 {
+  margin-bottom: 0px;
+  display: inline-block;
+  width: 100%;
+  max-height: 42px;
+  line-height: 1.2em;
+  overflow: hidden;
+}
+
+.inner-player-flex p {
+  margin-top: 0px;
+  display: inline-block;
+  width: 100%;
+}
+
+.red {
+  background-color: #cb673c;
+}
+
+.red button {
+  background-color: white;
+  color: #cb673c;
+}
+
+.green {
+  background-color: #7e4bcf;
+}
+
+.green button {
+  background-color: white;
+  color: black;
+}
+
+.playback-btn {
+  display: inline-block;
+  border-radius: 25px 25px;
+  padding: 5px 15px;
+  font-size: 14px;
+  margin-left: 0px;
+  margin-right: 10px;
+  margin-top: 8px;
+}
+
+#answerPlayer1 {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .answer-module {
+    box-sizing: border-box;
+    width: 95%;
+    max-height: 95%;
+    max-width: 420px;
+    overflow: auto;
+    padding: 12px 25px;
+  }
+
+  .absoluteCenter {
+    top: 12%;
+  }
+
+  .popup-title p {
+    font-size: 16px;
+    width: 95%;
+  }
+
+  .popup-player .inner-player-flex {
+    height: 30%;
+    padding-left: 18px;
+    width: 70%;
+    font-size: 14px;
+  }
+
+  .popup-player img {
+    width: 30%;
+  }
+
+  .playback-btn {
+    width: auto;
+  }
+}

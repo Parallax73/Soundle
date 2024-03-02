@@ -1,0 +1,136 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+@include mat.core();
+
+$custom-app-primary: mat.define-palette(mat.$deep-purple-palette);
+$custom-app-secondary: mat.define-palette(mat.$indigo-palette, A200, A400, 700);
+$custom-app-warn: mat.define-palette(mat.$red-palette);
+
+$custom-theme: mat.define-dark-theme(
+    (
+      color: (
+        primary: $custom-app-primary,
+        accent: $custom-app-secondary,
+        warn: $custom-app-warn
+      )
+    )
+);
+
+@include mat.all-component-themes($custom-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: grey }
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Circular', sans-serif;
+  font-weight: 500;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.05em;
+}
+
+.waves {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30vh;
+  margin-bottom: -7px;
+
+  min-height: 100px;
+  max-height: 250px;
+  z-index: -10;
+  display: block;
+  opacity: 0.8;
+}
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 32s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -4s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+
+.btn {
+  font-family: 'Open Sans', sans-serif;
+  padding: 15px 30px;
+  background-color: rgb(100, 100, 100);
+  border-radius: 40px;
+  border-width: 0px;
+  margin: 20px;
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 800;
+  transition: all 0.2s ease-in-out;
+}
+
+.clr {
+  background-color: #7e4bcf;
+  color: black;
+}
+
+.main-div {
+  height: 100vh;
+  width: 100%;
+}
+
+.main-text {
+  padding: 100px 20px 40px 20px;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-title {
+  font-size: 50px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  span{
+    border-bottom: 0.14em solid black;
+    z-index: -1;
+    padding: 0px 8px;
+  }
+}
+
+.main-desc {
+  font-size: 18px;
+  line-height: 1.6em;
+}
+
+.anchor-desc {
+  max-width: 600px;
+  padding: 10px 10px;
+  font-style: italic;
+}
+
+
+

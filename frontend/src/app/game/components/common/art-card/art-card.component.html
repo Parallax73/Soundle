@@ -1,0 +1,41 @@
+<div>
+  <audio  id="answerPlayer1">
+    <source
+      src="{{audioUrl}}"
+      type="audio/mpeg"
+    />
+    Your browser does not support the audio element.
+  </audio>
+  <div  class="answer-module green absoluteCenter">
+    <div class="popup-inner">
+      <div class="popup-title">
+        <h1>Well Done!</h1>
+      </div>
+      <div class="popup-player">
+        <img src="{{imageUrl}}"  alt="image"/>
+        <div class="inner-player-flex">
+          <div>
+            <h3>
+              <span style="font-weight: bolder"> {{title}} </span>
+            </h3>
+            <p style="font-weight: bold"> {{artist}} </p>
+            <p>
+              <i>
+                {{album}}
+              </i>
+            </p>
+            <button class="btn playback-btn" mat-raised-button color="primary">Play</button>
+            <button class="btn playback-btn" mat-raised-button color="primary">Stop</button>
+          </div>
+        </div>
+      </div>
+      <div class="popup-streak">
+        <div>
+          <span class="streak-count"> 1"
+          ><strong>Streak: </strong> {{streak}} </span>
+        </div>
+      </div>
+      <button class="btn playback-btn" mat-raised-button color="primary">Play</button>
+    </div>
+  </div>
+</div>

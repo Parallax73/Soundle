@@ -1,0 +1,28 @@
+<h2 mat-dialog-title style="background-color: #212121">
+  <mat-icon class="material-icons">settings</mat-icon>
+  Settings
+</h2>
+<mat-dialog-content class="dialog-content">
+  <div class="content-div">
+    <mat-grid-list cols="2" rowHeight="4:3">
+      <mat-grid-tile>
+        <h4>Dark mode</h4>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-slide-toggle></mat-slide-toggle>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <h4>Language</h4>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-radio-group class="radio-group">
+          <mat-radio-button value="1">English (Default)</mat-radio-button>
+          <mat-radio-button value="2">Português</mat-radio-button>
+        </mat-radio-group>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="dialog-actions">
+  <button class="button" mat-button mat-dialog-close (click)="closeDialog()">Save Changes</button>
+</mat-dialog-actions>

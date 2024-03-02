@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.login-form {
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1001;
+}
+
+.mat-label {
+  margin: 5px;
+}
+
+.form-input{
+  border-radius: 40% 40%;
+}
+
+.form-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-submit-btn{
+  margin-right: 5px;
+}
+
+h4 {
+  font-family: 'Circular', sans-serif;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.05em;
+  color: #212121;
+  font-size: 25px;
+}
