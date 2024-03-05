@@ -1,60 +1,46 @@
 package com.parallax.backend.entity;
 
-
-import com.parallax.backend.utils.ROLE;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "Users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "users")
 @Getter
+@Setter
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String username;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
+    @NotNull
+    @NaturalId
+    @Column(unique = true)
+    private String userName;
+    @NotNull
+    private String email;
+    @NotNull
     private String password;
-    private String spotifyID;
-    private String profileImageURL;
-    private Integer score;
-    private Integer streak;
-    private ROLE role;
-
-    @Transient
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public User(UserDTO userDTO) {
-        this.username = userDTO.username();
-        this.password = encodePassword(userDTO.password());
-        this.score = 0;
-        this.streak = 0;
+    @NotNull
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="user_role_relate", joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns=@JoinColumn(name="role_id"))
+    private Set<Role> roles = new HashSet<>();
+    public User() {
+    }
+    public User(@NotNull String userName, @NotNull String email, @NotNull String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
     }
 
-    public void changePassword(String newPassword) {
-        this.password = passwordEncoder.encode(newPassword);
-    }
 
-    public String encodePassword(String pass) {
-        return passwordEncoder.encode(pass);
-    }
 
-    public boolean decodePassword(String passwords){
-        return passwordEncoder.matches(passwords, password);
-    }
-
-    public void addScore(int scoreToAdd){
-        this.score += scoreToAdd;
-    }
-
-    public void addStreak(int streakS){
-        if (streakS>this.streak){
-            streak = streakS;
-        }
-    }
 }

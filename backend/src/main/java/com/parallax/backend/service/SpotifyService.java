@@ -2,7 +2,7 @@ package com.parallax.backend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parallax.backend.utils.SpotifyResponse;
+import com.parallax.backend.dto.SpotifyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -50,13 +50,14 @@ public class SpotifyService {
         int range = random.nextInt(songs.size());
         var shuffledSong = songs.get(range);
 
-        return SpotifyResponse.builder()
-                .title(shuffledSong.get("name").asText())
-                .imageUrl(shuffledSong.get("album").get("images").get(1).get("url").asText())
-                .audioUrl(shuffledSong.get("preview_url").asText())
-                .artist(shuffledSong.get("artists").get(0).get("name").asText())
-                .album(shuffledSong.get("album").get("name").asText())
-                .build();
+        return new SpotifyResponse(
+                shuffledSong.get("album").get("images").get(1).get("url").asText(),
+                shuffledSong.get("preview_url").asText(),
+                shuffledSong.get("name").asText(),
+                shuffledSong.get("artists").get(0).get("name").asText(),
+                shuffledSong.get("album").get("name").asText());
+
+
     }
 
     @Scheduled(cron = "0 0 6 * * *")

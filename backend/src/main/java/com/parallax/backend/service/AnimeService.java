@@ -2,7 +2,7 @@ package com.parallax.backend.service;
 
 
 
-import com.parallax.backend.utils.AnimeResponse;
+import com.parallax.backend.dto.AnimeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -18,7 +18,7 @@ import java.util.Random;
 
 @Service
 @Slf4j
-public class AnimeScrapper {
+public class AnimeService {
 
     String MAL_BY_POPULARITY1_LINK = "https://myanimelist.net/topanime.php?type=bypopularity&limit=";
     String MAL_ANIME_BY_RANKING_SELECTOR = ".anime_ranking_h3";
@@ -63,11 +63,12 @@ public class AnimeScrapper {
                 String src = metaTag.attr("content");
                 String audioUrl = src.replace("webm","ogg").replaceFirst("v","a");
 
-                return AnimeResponse.builder()
-                        .audioUrl(audioUrl)
-                        .videoUrl(src)
-                        .title(title)
-                        .position(index+1).build();
+                return new AnimeResponse(
+                        audioUrl,
+                        src,
+                        title,
+                        index+1
+                        );
             }
         } catch (IOException e) {
             e.printStackTrace();
