@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Spring Boot 3 Auth APIs", version = "1.0",
-        description = "Auth application documentation", contact = @Contact(name = "Zeeshan Adil")),
+@OpenAPIDefinition(info = @Info(title = "Backend for Soundle", version = "0.0.1",
+        description = "Soundle documentation", contact = @Contact(name = "Gabriel Santos")),
         security = {@SecurityRequirement(name = "bearerToken"), @SecurityRequirement(name = "cookie")})
 @SecuritySchemes({
         @SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT"),

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parallax.backend.dto.SpotifyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,7 @@ public class SpotifyService {
     SpotifyResponse daysTrack;
 
 
-    public SpotifyResponse draw(String url){
+    public ResponseEntity<SpotifyResponse> draw(String url){
         int index = url.lastIndexOf("/");
         String newUrl  = "https://api.spotify.com/v1/playlists" + url.substring(index) + "/tracks";
         log.info(newUrl);
@@ -50,47 +52,48 @@ public class SpotifyService {
         int range = random.nextInt(songs.size());
         var shuffledSong = songs.get(range);
 
-        return new SpotifyResponse(
+        var response = new SpotifyResponse(
                 shuffledSong.get("album").get("images").get(1).get("url").asText(),
                 shuffledSong.get("preview_url").asText(),
                 shuffledSong.get("name").asText(),
                 shuffledSong.get("artists").get(0).get("name").asText(),
                 shuffledSong.get("album").get("name").asText());
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
 
     @Scheduled(cron = "0 0 6 * * *")
     public void dayTrack(){
         String url = "https://open.spotify.com/playlist/0JiVp7Z0pYKI8diUV6HJyQ?si=56ff4692136140e1";
-        this.daysTrack = draw(url);
+        this.daysTrack = draw(url).getBody();
     }
 
-    public SpotifyResponse getDayTrack(){
-        return this.daysTrack;
+    public ResponseEntity<SpotifyResponse> getDayTrack(){
+        return ResponseEntity.status(HttpStatus.OK).body(this.daysTrack);
     }
 
-    public SpotifyResponse drawFromTopStreamed(){
+    public ResponseEntity<SpotifyResponse> drawFromTopStreamed(){
         String url = "https://open.spotify.com/playlist/0JiVp7Z0pYKI8diUV6HJyQ?si=56ff4692136140e1";
         return draw(url);
     }
 
-    public SpotifyResponse drawFrom2K() {
+    public ResponseEntity<SpotifyResponse> drawFrom2K() {
         String URL_2K = "https://open.spotify.com/playlist/3JxYCQeXAy64gZC1jXRP02?si=e0a944404bef4eae";
         return draw(URL_2K);
     }
 
-    public SpotifyResponse drawFrom90s() {
+    public ResponseEntity<SpotifyResponse> drawFrom90s() {
         String URL_90s = "https://open.spotify.com/playlist/37i9dQZF1DXdo6A3mWpdWx?si=815ac405c778499c";
         return draw(URL_90s);
     }
 
-    public SpotifyResponse drawFrom80s() {
+    public ResponseEntity<SpotifyResponse> drawFrom80s() {
         String URL_80s = "https://open.spotify.com/playlist/37i9dQZF1DXb57FjYWz00c?si=253f248313a14cf1";
         return draw(URL_80s);
     }
 
-    public SpotifyResponse drawFrom70s() {
+    public ResponseEntity<SpotifyResponse> drawFrom70s() {
         String URL_70s = "https://open.spotify.com/playlist/37i9dQZF1DWTJ7xPn4vNaz?si=503ec16abe9e46d9";
         return draw(URL_70s);
     }

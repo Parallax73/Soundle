@@ -56,7 +56,7 @@ public class SecurityConfig {
                     return configuration;
                 }).and().csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/auth/login", "/auth/register", "/auth/logout")
+                .requestMatchers("api/v1/users/login", "api/v1/users/register", "api/v1/users/logout")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

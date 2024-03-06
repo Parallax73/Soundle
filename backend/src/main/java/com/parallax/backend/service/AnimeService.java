@@ -9,6 +9,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class AnimeService {
     List<Element> animeList = new ArrayList<>();
     Random random = new Random();
 
-    public AnimeResponse draw() {
+    public ResponseEntity<AnimeResponse> draw() {
         String ANIME_MOE_URL = "https://animethemes.moe/anime/";
         String MOE_AUDIO_SELECTOR = "a.sc-c551d941-0.sc-c551d941-2.xAATx.iCLIxr";
         String title = null;
@@ -63,17 +65,19 @@ public class AnimeService {
                 String src = metaTag.attr("content");
                 String audioUrl = src.replace("webm","ogg").replaceFirst("v","a");
 
-                return new AnimeResponse(
+                var response = new AnimeResponse(
                         audioUrl,
                         src,
                         title,
                         index+1
                         );
+
+                return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
 

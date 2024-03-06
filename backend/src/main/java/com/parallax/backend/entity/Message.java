@@ -14,6 +14,4 @@ public class Message {
     public void setInfoMessage(String infoMessage) {
         this.infoMessage = infoMessage;
     }
-
-
 }

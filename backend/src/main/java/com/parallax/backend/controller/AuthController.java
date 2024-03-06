@@ -3,112 +3,144 @@ package com.parallax.backend.controller;
 import com.parallax.backend.dto.LoginUser;
 import com.parallax.backend.dto.NewUser;
 import com.parallax.backend.entity.Message;
-import com.parallax.backend.entity.Role;
-import com.parallax.backend.entity.User;
-import com.parallax.backend.enums.RoleList;
-import com.parallax.backend.service.RoleService;
+import com.parallax.backend.service.AuthService;
 import com.parallax.backend.service.UserService;
-import com.parallax.backend.utils.CookieUtil;
-import com.parallax.backend.utils.JwtProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/users")
+@Tag(name = "Authentication Controller")
 public class AuthController {
-    private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
-    private final RoleService roleService;
-    private final JwtProvider jwtProvider;
 
-    @Value("${jwt.accessTokenCookieName}")
-    private String cookieName;
+    final AuthService authService;
 
-    @Autowired
-    public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
-                          UserService userService, RoleService roleService, JwtProvider jwtProvider) {
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.userService = userService;
-        this.roleService = roleService;
-        this.jwtProvider = jwtProvider;
+    final
+    UserService service;
+
+    public AuthController(UserService service,AuthService authService) {
+        this.service = service;
+        this.authService = authService;
     }
 
+    @Operation(
+            description = "Endpoint for user login",
+            responses = {
+                    @ApiResponse(
+                            description = "Logged successfully",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Wrong credentials",
+                            responseCode = "400"
+                    )
+            }
+    )
     @PostMapping("/login")
     public ResponseEntity<Object> login(HttpServletResponse httpServletResponse,
                                         @Valid @RequestBody LoginUser loginUser, BindingResult bidBindingResult){
-        if(bidBindingResult.hasErrors())
-            return new ResponseEntity<>(new Message("Revise sus credenciales"), HttpStatus.BAD_REQUEST);
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginUser.username(), loginUser.password())
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtProvider.generateToken(authentication);
-            CookieUtil.create(httpServletResponse, cookieName, jwt, false, -1, "localhost");
-            return new ResponseEntity<>(new Message("Sesión iniciada"), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new Message("Revise sus credenciales"), HttpStatus.BAD_REQUEST);
-        }
+        return authService.login(httpServletResponse,loginUser,bidBindingResult);
     }
 
+    @Operation(
+            description = "Endpoint for user creation",
+            responses = {
+                    @ApiResponse(
+                            description = "User created successfully",
+                            responseCode = "201"
+                    ),
+                    @ApiResponse(
+                            description = "Wrong credentials while creating a new user",
+                            responseCode = "400"
+                    )
+            }
+    )
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) throws RoleNotFoundException {
-        if (bindingResult.hasErrors())
-            return new ResponseEntity<>(new Message("Revise los campos e intente nuevamente"), HttpStatus.BAD_REQUEST);
-        User user = new User(newUser.username(), newUser.email(),
-                passwordEncoder.encode(newUser.password()));
-
-        Set<Role> roles = new HashSet<>();
-        Optional<Role> userRoleOptional = roleService.getByRoleName(RoleList.ROLE_USER);
-        if (userRoleOptional.isPresent()) {
-            roles.add(userRoleOptional.get());
-        } else {
-            throw new RoleNotFoundException("Role ROLE_USER not found");
+    public ResponseEntity<Object> register(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
+        try {
+            return authService.registerUser(newUser, bindingResult);
+        } catch (RoleNotFoundException e) {
+            return new ResponseEntity<>(new Message("Role not found"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        roles.add(roleService.getByRoleName(RoleList.ROLE_USER).get());
-        user.setRoles(roles);
-        userService.save(user);
-        return new ResponseEntity<>(new Message("Registro exitoso! Inicie sesión"), HttpStatus.CREATED);
     }
 
-
+    @Operation(
+            description = "Endpoint for getting the details from cookie",
+            responses = {
+                    @ApiResponse(
+                            description = "User created successfully",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "User not found",
+                            responseCode = "404"
+                    )
+            }
+    )
     @GetMapping("/details")
     public ResponseEntity<Object> getUserDetails(){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        String userName = userDetails.getUsername();
-        Optional<User> user= this.userService.getByUserName(userName);
-        if (!user.isPresent())
-            return new ResponseEntity<>(new Message("No encotrado"), HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(user.get(), HttpStatus.OK) ;
+        return authService.getUserDetails();
     }
 
-
+    @Operation(
+            description = "Endpoint for user logoff",
+            responses = {
+                    @ApiResponse(
+                            description = "Logged out successfully",
+                            responseCode = "200"
+                    )
+            }
+    )
     @GetMapping("/logout")
     public ResponseEntity<Message> logOut(HttpServletResponse httpServletResponse){
-        CookieUtil.clear(httpServletResponse,cookieName);
-        return new ResponseEntity<>(new Message("Sesión cerrada"), HttpStatus.OK) ;
+        return authService.logoutUser(httpServletResponse);
     }
 
+    @Operation(
+            description = "Endpoint for adding score to a designed user",
+            responses = {
+                    @ApiResponse(
+                            description = "Changed out successfully",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Isn't authenticated",
+                            responseCode = "403"
+                    )
+            }
+    )
+    @PatchMapping("/addScore")
+    public ResponseEntity<?> addScore(@Param("score") int score){
+        return authService.addScore(score);
+    }
+
+    @Operation(
+            description = "Endpoint for changing the streak of a designed user",
+            responses = {
+                    @ApiResponse(
+                            description = "Changed out successfully",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Isn't authenticated",
+                            responseCode = "403"
+                    )
+            }
+    )
+    @PatchMapping("/addStreak")
+    public ResponseEntity<?> addStreak(@Param("streak") int streak){
+        return authService.addStreak(streak);
+    }
 }

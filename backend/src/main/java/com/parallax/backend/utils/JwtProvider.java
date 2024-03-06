@@ -14,14 +14,12 @@ import java.util.Date;
 public class JwtProvider {
 
 
-
-    //Clave para verificar el token
     @Value("${jwt.secret}")
     private String secret;
 
-    //Tiempo base de expiración
     @Value("${jwt.expiration}")
     private int expiration;
+
 
     public String generateToken(Authentication authentication){
 

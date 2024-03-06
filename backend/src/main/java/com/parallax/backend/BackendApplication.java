@@ -25,11 +25,23 @@ public class BackendApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        String sql = "insert into role (id, role_name)\n" +
-                "values (1, 'ROLE_USER');";
-        String sql2 = "insert into role (id, role_name)\n" +
-                "values (2, 'ROLE_ADMIN');";
-        jdbcTemplate.update(sql, sql2);
+        String checkSql = "SELECT COUNT(*) FROM role WHERE id = 0 AND role_name = 'ROLE_USER'";
+        int count = jdbcTemplate.queryForObject(checkSql, Integer.class);
+
+        if (count == 0) {
+            String insertSql = "INSERT INTO role (id, role_name) VALUES (0, 'ROLE_USER')";
+            jdbcTemplate.update(insertSql);
+        }
+
+
+        checkSql = "SELECT COUNT(*) FROM role WHERE id = 1 AND role_name = 'ROLE_ADMIN'";
+        count = jdbcTemplate.queryForObject(checkSql, Integer.class);
+
+        if (count == 0) {
+            String insertSql2 = "INSERT INTO role (id, role_name) VALUES (1, 'ROLE_ADMIN')";
+            jdbcTemplate.update(insertSql2);
+            log.info("Roles added to the database");
+        }
 
         scrapper.fillTheList();
         log.info("List filled successfully");
