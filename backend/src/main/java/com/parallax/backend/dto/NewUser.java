@@ -8,12 +8,13 @@ import jakarta.validation.constraints.Pattern;
 public record NewUser(
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]{3,15}$\n")
+        @Pattern(regexp = "^[a-zA-Z0-9]{3,15}$")
         String username,
         @Email
         String email,
         @NotBlank
-        @Pattern(regexp = "^{3,30}")
+        @Pattern(regexp = "^.{3,30}$")
         String password
+
 ) {
 }
