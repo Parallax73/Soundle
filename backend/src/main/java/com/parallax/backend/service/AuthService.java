@@ -11,6 +11,7 @@ import com.parallax.backend.utils.CookieUtil;
 import com.parallax.backend.utils.JwtProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class AuthService {
 
 
@@ -65,15 +67,17 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             CookieUtil.create(httpServletResponse, cookieName, jwt, false, -1, "localhost");
-            return new ResponseEntity<>(new Message("New sessions started"), HttpStatus.OK);
+            log.info(jwt);
+            return new ResponseEntity<>(new Message(jwt), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new Message("Wrong credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
     public ResponseEntity<Object> registerUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) throws RoleNotFoundException {
+        log.info("register method called");
         if (bindingResult.hasErrors())
-            return new ResponseEntity<>(new Message("Something went wrong, check your fields"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Something went wrong, check your fields" + bindingResult.toString()), HttpStatus.BAD_REQUEST);
         User user = new User(newUser.username(), newUser.email(),
                 passwordEncoder.encode(newUser.password()));
 
