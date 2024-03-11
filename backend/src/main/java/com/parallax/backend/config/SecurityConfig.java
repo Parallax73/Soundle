@@ -48,21 +48,22 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.cors().configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(List.of("http://localhost:8080"));
-                    configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"));
+                    configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:8080"));
+                    configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
                     configuration.setAllowCredentials(true);
                     configuration.addExposedHeader("Message");
                     configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
                     return configuration;
                 }).and().csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("api/v1/users/login", "api/v1/users/register", "api/v1/users/logout")
+                .requestMatchers("/api/v1/users/login", "/api/v1/users/register", "/api/v1/users/logout")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
