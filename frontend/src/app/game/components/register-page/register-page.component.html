@@ -1,21 +1,21 @@
 <app-toolbar></app-toolbar>
-<form class="login-form">
-  <h4>If you already has an account, click in the login button to be redirected</h4>
+<form  class="login-form">
+  <h4>If you already have an account, click in the login button to be redirected</h4>
   <mat-form-field class="login-form-field">
     <mat-label class="mat-label">Email</mat-label>
-    <input type="text" class="form-input" matInput [formControl]="usernameFormControl" placeholder="Email">
+    <input type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}"  class="form-control" id="email"  matInput placeholder="Email">
   </mat-form-field>
   <mat-form-field class="login-form-field">
     <mat-label class="mat-label">Username</mat-label>
-    <input type="text" class="form-input" matInput [formControl]="usernameFormControl" placeholder="Username">
+    <input type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"  class="form-control" id="username"  matInput placeholder="Username">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input class="form-input" type="password" matInput [formControl]="usernameFormControl" placeholder="Password">
+    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"  class="form-control" id="password"  matInput placeholder="Password">
   </mat-form-field>
   <div class="form-buttons">
-    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px">Register</button>
-    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="redirectToLogin()">Login</button>
+    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="register()">Register</button>
+    <button type="button" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="this.router.redirectToLogin()">Login</button>
   </div>
 </form>
 

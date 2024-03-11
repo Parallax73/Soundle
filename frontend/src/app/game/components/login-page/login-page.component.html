@@ -3,15 +3,15 @@
   <h4>If you don't have an account, press the register button to be redirected</h4>
   <mat-form-field class="login-form-field">
     <mat-label class="mat-label">Username</mat-label>
-    <input type="text" class="form-input" matInput [formControl]="usernameFormControl" placeholder="Username">
+    <input type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"  class="form-control" id="username"  matInput placeholder="Username">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input class="form-input" type="password" matInput [formControl]="usernameFormControl" placeholder="Password">
+    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"  class="form-control" id="password" matInput placeholder="Password">
   </mat-form-field>
   <div class="form-buttons">
-    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px">Login</button>
-    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="redirectToRegister()">Register</button>
+    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="logIn()">Login</button>
+    <button type="submit" class="btn clr" mat-raised-button color="primary" style="margin: 5px" (click)="this.router.redirectToRegister()">Register</button>
   </div>
 </form>
 

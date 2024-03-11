@@ -2,7 +2,7 @@
   <mat-sidenav-content>
     <mat-toolbar class="toolbar">
       <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-      <span (click)="redirectToMenu()" class="title-center" style="position: sticky">Soundle</span>
+      <span (click)="this.router.redirectToMenu()" class="title-center" style="position: sticky">Soundle</span>
       <div class="btn-div">
         <button mat-button class="custom-button" (click)="openInfoDialog()">
           <mat-icon class="material-symbols-outlined">question_mark</mat-icon>
@@ -19,7 +19,7 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item *ngIf="IS_USER_LOGGED !== 'false'">Profile</button>
 
-          <button mat-menu-item (click)="redirectToLogin()">Login</button>
+          <button mat-menu-item (click)="this.router.redirectToLogin()">Login</button>
         </mat-menu>
 
       </div>
@@ -30,11 +30,11 @@
   <div class="sidenav-content">
     <button class="close-sdnv-btn" mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
     <mat-nav-list>
-      <button mat-button class="custom-sidenav-btn" (click)="redirectToCode()">
+      <button mat-button class="custom-sidenav-btn" (click)="this.router.redirectToCode()">
         <mat-icon class="material-symbols-outlined">code</mat-icon>
         <span class="btn-span">Code</span>
       </button>
-      <button mat-button class="custom-sidenav-btn" (click)="redirectToDoc()">
+      <button mat-button class="custom-sidenav-btn" (click)="this.router.redirectToDoc()">
         <mat-icon class="material-symbols-outlined">article</mat-icon>
         <span class="btn-span">Documentation</span>
       </button>
@@ -42,4 +42,5 @@
   </div>
 </mat-sidenav>
 <div id="focusTarget" tabindex="-1"></div>
+<router-outlet></router-outlet>
 

@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import {LoginPageComponent} from "./game/components/login-page/login-page.component";
-import {RegisterPageComponent} from "./game/components/register-page/register-page.component";
 import {QuizComponent} from "./game/components/quiz/quiz.component";
-import {ArtCardComponent} from "./game/components/common/art-card/art-card.component";
 import {DocumentationComponent} from "./game/components/documentation/documentation.component";
+import {RegisterPageComponent} from "./game/components/register-page/register-page.component";
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'game'},
@@ -16,11 +15,11 @@ export const routes: Routes = [
     component: LoginPageComponent
   },
   {
-    path: "register",
+    path: 'register',
     component: RegisterPageComponent
   },
   {
-    path: "play",
+    path: 'play',
     component: QuizComponent
   },
   {

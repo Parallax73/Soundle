@@ -7,10 +7,11 @@ import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/mater
 import {MatToolbar} from "@angular/material/toolbar";
 import {NgIf} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
+import { RouterOutlet} from "@angular/router";
 import {DialogComponent} from "../dialogs/setting-dialog/setting-dialog.component";
 import {InfoDialogComponent} from "../dialogs/info-dialog/info-dialog.component";
 import {StatsDialogComponent} from "../dialogs/stats-dialog/stats-dialog.component";
+import {RouterService} from "../../../service/router/router.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -27,7 +28,8 @@ import {StatsDialogComponent} from "../dialogs/stats-dialog/stats-dialog.compone
     MatSidenavContent,
     MatToolbar,
     NgIf,
-    MatMenuTrigger
+    MatMenuTrigger,
+    RouterOutlet
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'
@@ -36,10 +38,9 @@ export class ToolbarComponent implements OnInit{
 
   IS_USER_LOGGED: string;
 
-  constructor(public dialog: MatDialog, private router: Router) {
+  constructor(public dialog: MatDialog, public router: RouterService) {
     this.IS_USER_LOGGED= 'null';
   }
-
 
   ngOnInit() {
     localStorage.setItem("IS_USER_LOGGED","false")
@@ -58,26 +59,7 @@ export class ToolbarComponent implements OnInit{
     this.dialog.open(StatsDialogComponent)
   }
 
-  redirectToLogin() {
-    this.router.navigate(['/login']).catch(error => {
-      console.error('Error navigating to /login:', error);
-    });
-  }
 
-  redirectToDoc(){
-    this.router.navigate(['/documentation']).catch(error => {
-      console.error('Error navigating to /documentation:', error);
-    });
-  }
-  redirectToMenu(){
-    this.router.navigate(['/game']).catch(error => {
-      console.error('Error navigating to /game:', error);
-    });
-  }
-
-  redirectToCode() {
-    window.location.href = 'https://github.com/Parallax73/Soundle';
-  }
 
 
 }

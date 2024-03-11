@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {NgIf} from "@angular/common";
 import {ToolbarComponent} from "../common/toolbar/toolbar.component";
