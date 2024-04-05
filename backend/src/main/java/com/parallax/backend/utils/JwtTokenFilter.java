@@ -41,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String token = getToken(req);
             if (token != null && jwtProvider.validateToken(token)) {
                 String userName = jwtProvider.getUserNameFromToken(token);
-                // Pass UserService instance as a parameter
+                log.error("{} tkoen from flter",token);
                 UserDetails userDetails = getUserDetails(userName);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -53,7 +53,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private UserDetails getUserDetails(String userName) {
-        // Access UserService to get UserDetails
         UserService userService = getUserServiceBean();
         return userDetailsService.loadUserByUsername(userName);
     }

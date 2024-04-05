@@ -17,9 +17,13 @@
           <mat-icon class="material-symbols-outlined">person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngIf="IS_USER_LOGGED !== 'false'">Profile</button>
+          <button mat-menu-item  (click)="service.redirectToUser()" *ngIf="service.isCookiePresent()">Profile</button>
+          <button mat-menu-item (click)="service.deleteCookies()" *ngIf="service.isCookiePresent()">Logout</button>
 
-          <button mat-menu-item (click)="this.router.redirectToLogin()">Login</button>
+          <button mat-menu-item (click)="router.redirectToLogin()" *ngIf="!service.isCookiePresent()">Login</button>
+          <button mat-menu-item (click)="router.redirectToRegister()" *ngIf="!service.isCookiePresent()">Register</button>
+
+
         </mat-menu>
 
       </div>

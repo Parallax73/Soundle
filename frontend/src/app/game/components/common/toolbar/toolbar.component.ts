@@ -12,6 +12,7 @@ import {DialogComponent} from "../dialogs/setting-dialog/setting-dialog.componen
 import {InfoDialogComponent} from "../dialogs/info-dialog/info-dialog.component";
 import {StatsDialogComponent} from "../dialogs/stats-dialog/stats-dialog.component";
 import {RouterService} from "../../../service/router/router.service";
+import {UsersService} from "../../../service/users/users.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -36,14 +37,12 @@ import {RouterService} from "../../../service/router/router.service";
 })
 export class ToolbarComponent implements OnInit{
 
-  IS_USER_LOGGED: string;
 
-  constructor(public dialog: MatDialog, public router: RouterService) {
-    this.IS_USER_LOGGED= 'null';
+  constructor(public dialog: MatDialog, public router: RouterService, public service: UsersService) {
+
   }
 
   ngOnInit() {
-    localStorage.setItem("IS_USER_LOGGED","false")
   }
 
   openSettingDialog(){

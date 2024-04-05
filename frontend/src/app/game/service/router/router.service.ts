@@ -34,4 +34,10 @@ export class RouterService {
       console.error('Error navigating to /register:', error);
     });
   }
+
+  redirectToUser(user:string){
+    this.router.navigate(['/'+user]).catch(error => {
+      console.error('Error navigating to /'+user, error);
+    });
+  }
 }

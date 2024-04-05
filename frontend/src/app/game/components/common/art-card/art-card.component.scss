@@ -126,9 +126,6 @@ h1{
   margin-top: 8px;
 }
 
-#answerPlayer1 {
-  display: none;
-}
 
 @media (max-width: 768px) {
   .answer-module {
@@ -157,7 +154,8 @@ h1{
   }
 
   .popup-player img {
-    width: 30%;
+    width: 300px;
+    height: 300px;
   }
 
   .playback-btn {

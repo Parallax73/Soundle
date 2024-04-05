@@ -1,4 +1,4 @@
-package com.parallax.backend.entity;
+package com.parallax.backend.utils;
 
 public class Message {
     private String infoMessage;

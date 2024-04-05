@@ -1,41 +1,35 @@
 <div>
-  <audio  id="answerPlayer1">
-    <source
-      src="{{audioUrl}}"
-      type="audio/mpeg"
-    />
-    Your browser does not support the audio element.
-  </audio>
+  <audio src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" #audio></audio>
   <div  class="answer-module green absoluteCenter">
     <div class="popup-inner">
       <div class="popup-title">
         <h1>Well Done!</h1>
       </div>
       <div class="popup-player">
-        <img src="{{imageUrl}}"  alt="image"/>
+        <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"  alt="image" />
         <div class="inner-player-flex">
           <div>
             <h3>
-              <span style="font-weight: bolder"> {{title}} </span>
+              <span style="font-weight: bolder"> Green Room </span>
             </h3>
-            <p style="font-weight: bold"> {{artist}} </p>
+            <p style="font-weight: bolder"> Ken Carson </p>
             <p>
               <i>
-                {{album}}
+                A Great Caos
               </i>
             </p>
-            <button class="btn playback-btn" mat-raised-button color="primary">Play</button>
-            <button class="btn playback-btn" mat-raised-button color="primary">Stop</button>
+            <button class="btn playback-btn" (click)="audio.play()" mat-raised-button color="primary">Play</button>
+            <button class="btn playback-btn" (click)="audio.pause()" mat-raised-button color="primary">Stop</button>
           </div>
         </div>
       </div>
       <div class="popup-streak">
         <div>
-          <span class="streak-count"> 1"
-          ><strong>Streak: </strong> {{streak}} </span>
+
+          <span class="streak-count">Streak: <strong>3</strong>  </span>
         </div>
       </div>
-      <button class="btn playback-btn" mat-raised-button color="primary">Play</button>
+      <button class="btn playback-btn" mat-raised-button color="primary">Continue</button>
     </div>
   </div>
 </div>

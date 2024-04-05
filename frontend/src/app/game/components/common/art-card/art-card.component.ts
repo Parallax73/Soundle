@@ -16,11 +16,14 @@ import {MatButton} from "@angular/material/button";
   styleUrl: './art-card.component.scss'
 })
 export class ArtCardComponent {
-
+/*
   @Input() imageUrl!: string;
   @Input() audioUrl!: string;
   @Input() title!: string;
   @Input() artist!: string;
   @Input() album!: string;
-  @Input() streak!: number;
+  @Input() streak!: number;*/
+
+
+
 }

@@ -3,6 +3,7 @@ import {LoginPageComponent} from "./game/components/login-page/login-page.compon
 import {QuizComponent} from "./game/components/quiz/quiz.component";
 import {DocumentationComponent} from "./game/components/documentation/documentation.component";
 import {RegisterPageComponent} from "./game/components/register-page/register-page.component";
+import {ArtCardComponent} from "./game/components/common/art-card/art-card.component";
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'game'},
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'documentation',
     component: DocumentationComponent
+  },
+  {
+    path: 'teste',
+    component: ArtCardComponent
   },
   { path: '**',
     redirectTo: ''

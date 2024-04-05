@@ -76,6 +76,7 @@ public class TrackController {
     )
     @GetMapping("/draw-top")
     public ResponseEntity<?> drawTopStreamed(){
+        log.info("draw-top was called");
         return ResponseEntity.status(HttpStatus.OK).body(service.drawFromTopStreamed());
     }
 
