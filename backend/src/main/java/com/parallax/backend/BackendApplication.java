@@ -16,7 +16,6 @@ public class BackendApplication implements CommandLineRunner {
     AnimeService scrapper;
 
 
-
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
@@ -24,12 +23,8 @@ public class BackendApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
-
-
         scrapper.fillTheList();
-        log.info("Roles deleted and recreated successfully");
+
+
     }
-
-
 }

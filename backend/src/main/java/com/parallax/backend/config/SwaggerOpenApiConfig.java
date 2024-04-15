@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
         security = {@SecurityRequirement(name = "bearerToken"), @SecurityRequirement(name = "cookie")})
 @SecuritySchemes({
         @SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT"),
-        @SecurityScheme(name = "cookie", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, paramName = "cookie")
 })
 public class SwaggerOpenApiConfig {
 }

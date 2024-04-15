@@ -1,7 +1,8 @@
 package com.parallax.backend.dto;
 
-public record LoginUser(
+public record UserRegister(
         String username,
+        String email,
         String password
 ) {
 }

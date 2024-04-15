@@ -4,6 +4,8 @@ package com.parallax.backend.service;
 
 import com.parallax.backend.dto.AnimeResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,55 +29,69 @@ public class AnimeService {
     List<Element> animeList = new ArrayList<>();
     Random random = new Random();
 
-    public ResponseEntity<AnimeResponse> draw() {
+    public ResponseEntity<AnimeResponse> draw() throws IOException {
+        String ANIME_MOE_API_URL = "https://api.animethemes.moe/search?fields%5Bsearch%5D=anime&q=";
         String ANIME_MOE_URL = "https://animethemes.moe/anime/";
-        String MOE_AUDIO_SELECTOR = "a.sc-c551d941-0.sc-c551d941-2.xAATx.iCLIxr";
-        String title = null;
-        int index = -1;
+        String MOE_AUDIO_SELECTOR = "div.sc-64f8332-0:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1)";
 
+        String animeSlug;
         try {
-            String audioPage;
-            Element element = null;
-            int attempts = 0;
-            while (element == null && attempts < animeList.size()) {
+
+            JSONArray animeArray = new JSONArray();
+            JSONObject firstAnime = new JSONObject();
+            int index = 0;
+
+            while (animeArray.isEmpty()) {
                 index = random.nextInt(animeList.size());
-                var drawnAnime = animeList.get(index)
-                        .select("a").attr("href")
-                        .replaceAll("__", "_").toLowerCase();
-                title = animeList.get(index).text();
+                var anime = animeList.get(index);
+                animeSlug = anime.text()
+                        .replaceAll("[^a-zA-Z0-9]", " ")
+                        .replaceAll(" ", "+")
+                        .toLowerCase();
 
-                int lastIndex = drawnAnime.lastIndexOf("/");
-                String moeUrl = ANIME_MOE_URL + drawnAnime.substring(lastIndex + 1);
+                log.info(animeSlug);
+                String jsonResponse = Jsoup.connect(ANIME_MOE_API_URL + animeSlug)
+                        .ignoreContentType(true)
+                        .execute()
+                        .body();
 
-                try {
-                    Document moeSite = Jsoup.connect(moeUrl).get();
-                    element = moeSite.select(MOE_AUDIO_SELECTOR).first();
-                } catch (HttpStatusException e) {
-                    log.info("404 Error for index " + index + ", trying another...");
-                    attempts++;
+                JSONObject jsonObject = new JSONObject(jsonResponse);
+                JSONArray animeResults = jsonObject.getJSONObject("search").getJSONArray("anime");
+
+                if (animeResults.length() > 0) {
+                    firstAnime = animeResults.getJSONObject(0);
+                    animeArray.put(firstAnime);
                 }
             }
 
-            if (element != null) {
-                audioPage = ANIME_MOE_URL + element.select("a").attr("href").substring(7);
+            String slug = firstAnime.getString("slug");
 
-                Document document = Jsoup.connect(audioPage).get();
-                Elements audioElement = document.select("meta[name=og:video]");
-                Element metaTag = audioElement.first();
-                String src = metaTag.attr("content");
-                String audioUrl = src.replace("webm","ogg").replaceFirst("v","a");
+            Document moeSite = Jsoup.connect(ANIME_MOE_URL + slug).get();
+            log.info(ANIME_MOE_URL + slug);
+            Element element = moeSite.select(MOE_AUDIO_SELECTOR).first();
 
-                var response = new AnimeResponse(
-                        audioUrl,
-                        src,
-                        title,
-                        index+1
-                        );
+            String audioPage = ANIME_MOE_URL + element.select("a").attr("href").substring(7);
+            log.info(audioPage + " AUDIOPAGE");
 
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            Document document = Jsoup.connect(audioPage).get();
+            Elements audioElement = document.select("meta[name=og:video]");
+            Element metaTag = audioElement.first();
+            String src = metaTag.attr("content");
+            String audioUrl = src.replace("webm", "ogg").replaceFirst("v", "a");
+
+            var response = new AnimeResponse(
+                    audioUrl,
+                    src,
+                    firstAnime.getString("name"),
+                    index+1
+                 );
+                 log.info(response.title() + response.audioUrl() + response.position() + response.videoUrl());
+                 return ResponseEntity.status(HttpStatus.OK).body(response);
+
+
+
+        } catch (HttpStatusException e) {
+            log.info(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
@@ -87,11 +103,16 @@ public class AnimeService {
 
             Document document = Jsoup.connect(MAL_BY_POPULARITY1_LINK + position).get();
             Elements elements = document.select(MAL_ANIME_BY_RANKING_SELECTOR);
-            animeList.addAll(elements);
+            for (Element e: elements){
+                log.info(e.text());
+                animeList.add(e);
+            }
             position += 50;
 
         }
     }
+
+
 
 
 

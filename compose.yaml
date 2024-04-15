@@ -9,7 +9,3 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
-  redis:
-    image: 'redis:alpine'
-    ports:
-      - "6379:6379"

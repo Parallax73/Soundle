@@ -1,62 +1,72 @@
 package com.parallax.backend.entity;
 
-import com.parallax.backend.enums.RoleList;
+import com.parallax.backend.dto.UserRegister;
+import com.parallax.backend.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NaturalId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-public class User {
+public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
-    @NotNull
-    @NaturalId
-    @Column(unique = true)
-    private String userName;
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+    private String username;
     private String email;
-    @NotNull
-    String password;
-    String spotifyID;
-    String profileImageURL;
-    Integer score;
-    Integer streak;
-    boolean enabled;
-    boolean tokenExpired;
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private String password;
+    private String profile_imageUrl;
+    private String spotifyId;
+    private Integer streak;
+    private Integer score;
 
 
 
-    public User() {
+    public User(String username, String email, String password){
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
-    public void addScore(int scoreToAdd){
-        this.score += scoreToAdd;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == Role.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public void addStreak(int streakS){
-        if (streakS>this.streak){
-            streak = streakS;
-        }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
