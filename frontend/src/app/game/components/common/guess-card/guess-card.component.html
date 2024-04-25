@@ -1,0 +1,25 @@
+<div class="main-div">
+  <div class="card">
+
+    <mat-progress-spinner
+      class="example-margin"
+      [mode]="mode"
+      [value]="value">
+    </mat-progress-spinner>
+
+    <button mat-button class="custom-button" *ngIf="playOrPause" (click)="changeToPause()" (auxclick)="play()">
+      <mat-icon class="material-icons">play_arrow</mat-icon>
+    </button>
+
+    <button mat-button class="custom-button" *ngIf="!playOrPause" (click)="changeToPause()">
+      <mat-icon class="material-icons">pause</mat-icon>
+    </button>
+    <div class="slider">
+    <h4>Volume:</h4>
+    <mat-slider>
+      <input matSliderThumb>
+    </mat-slider>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,51 @@
+.main-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30vh;
+}
+
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(33, 33, 33, .90);
+  width: 70vh;
+  height: 60vh;
+  border-radius: 20px 20px 20px 20px;
+  position: relative;
+}
+
+mat-progress-spinner {
+  color: black;
+  width: 10px;
+  height: 10px;
+}
+
+.custom-button {
+  background-color: rgba(33, 33, 33, .90);
+  color: white;
+  transition: background-color 0.3s ease;
+  font-family: "Mukta", sans-serif;
+  font-size: medium;
+  display: inline-block;
+  text-align: center;
+
+  :hover{
+    background-color: #212121;
+  }
+}
+
+.slider {
+  display: inline-block;
+  align-self: end;
+  margin-right: 5px;
+  h4 {
+    font-weight: bold;
+    color: white;
+  }
+}
+
+
