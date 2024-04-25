@@ -12,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
@@ -37,29 +36,33 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:8080"));
-        configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-        configuration.addExposedHeader("Message");
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**",configuration);
-
-        return source;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf()
+        http.cors().configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+
+                    configuration.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:8080"));
+                    configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+                    configuration.setAllowCredentials(true);
+                    configuration.addExposedHeader("Message");
+                    configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+                    source.registerCorsConfiguration("/**",configuration);
+
+                    return configuration;
+                })
+
+
+
+
+                .and().csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("api/v1/users/login", "api/v1/users/register")
+                .requestMatchers("api/v1/users/login", "api/v1/users/register","api/v1/users/username/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
