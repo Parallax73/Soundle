@@ -71,4 +71,8 @@ public class UserService {
                 .orElseThrow();
     }
 
+    public String getUsername(String token){
+        return provider.extractUsername(token);
+    }
+
 }
