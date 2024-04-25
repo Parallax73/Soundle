@@ -28,6 +28,9 @@ public class AuthController {
         return service.login(login);
     }
 
-
+    @GetMapping("/username/{token}")
+    public ResponseEntity<Object> username(@PathVariable("token") String token){
+        return ResponseEntity.ok().body(service.getUsername(token));
+    }
 
 }
