@@ -1,21 +1,45 @@
-.main-div {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30vh;
+  overflow: hidden;
+  height: 100vh;
 }
 
-
-.card {
+.loading-screen{
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  background-color: rgba(33, 33, 33, .90);
+  margin-bottom: 100px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 70vh;
   height: 60vh;
-  border-radius: 20px 20px 20px 20px;
+  border-radius: 20px;
   position: relative;
+
+  margin-bottom: 15vh;
+}
+
+.button-play{
+  width: 100px;
+  height: 100px;
+  background-color: #7e4bcf;
+}
+
+.button-play:hover{
+  background-color:  #5D3598FF ;
+}
+
+.form-input {
+  display: inline-block;
+  text-align: center;
 }
 
 mat-progress-spinner {
@@ -24,28 +48,52 @@ mat-progress-spinner {
   height: 10px;
 }
 
-.custom-button {
-  background-color: rgba(33, 33, 33, .90);
-  color: white;
-  transition: background-color 0.3s ease;
+input[type='text'] {
+  border-radius: 40px;
+  border-width: 0px;
+  background-color: white;
   font-family: "Mukta", sans-serif;
-  font-size: medium;
-  display: inline-block;
-  text-align: center;
+  width: 250px;
+  height: 50px;
+  padding: 15px 30px;
+  margin-right: 20px;
+}
 
-  :hover{
-    background-color: #212121;
+.volume-control{
+  margin-top: 10px;
+
+  display: flex;
+}
+
+.form{
+  margin-top: 15px;
+  display: flex;
+}
+
+.form-button{
+  margin-left: 10px;
+  height: 55px;
+}
+
+.time-counter{
+  h1{
+    font-family: 'Circular', sans-serif;
+    font-weight: bolder;
+    font-size: 50px;
   }
 }
 
-.slider {
-  display: inline-block;
-  align-self: end;
-  margin-right: 5px;
-  h4 {
-    font-weight: bold;
-    color: white;
-  }
+.input-field{
+  width: 250px;
+  height: 50px;
+  border: 1px black solid;
+  border-radius: 10px 10px 10px 10px;
 }
+
+
+
+
+
+
 
 

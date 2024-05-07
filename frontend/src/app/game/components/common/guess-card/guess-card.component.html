@@ -1,25 +1,43 @@
-<div class="main-div">
-  <div class="card">
+<app-toolbar></app-toolbar>
+<div class="container">
+
+  <div *ngIf="this.loading" class="loading-screen">
 
     <mat-progress-spinner
-      class="example-margin"
-      [mode]="mode"
-      [value]="value">
+      class="loading-spinner"
+      [mode]="mode">
     </mat-progress-spinner>
-
-    <button mat-button class="custom-button" *ngIf="playOrPause" (click)="changeToPause()" (auxclick)="play()">
-      <mat-icon class="material-icons">play_arrow</mat-icon>
-    </button>
-
-    <button mat-button class="custom-button" *ngIf="!playOrPause" (click)="changeToPause()">
-      <mat-icon class="material-icons">pause</mat-icon>
-    </button>
-    <div class="slider">
-    <h4>Volume:</h4>
-    <mat-slider>
-      <input matSliderThumb>
-    </mat-slider>
-    </div>
   </div>
 
+  <div *ngIf="!this.loading" class="center">
+    <div class="time-counter">
+      <h1>{{ timer }}s</h1>
+    </div>
+    <div class="button-div">
+    <button mat-icon-button class="button-play" (click)="play()">
+      <mat-icon *ngIf="this.playOrPause">play_arrow</mat-icon>
+      <mat-icon *ngIf="!this.playOrPause">pause</mat-icon>
+    </button>
+    </div>
+
+    <audio #audioPlayer [src]="audioSource"></audio>
+
+    <div class="volume-control">
+      <button mat-icon-button (click)="volumeChange()">
+        <mat-icon class="button-volume">volume_up</mat-icon>
+      </button>
+      <mat-slider>
+        <input [ngModel]="volumeValue" (ngModelChange)="volumeValue = $event; volumeChange()" matSliderThumb>
+      </mat-slider>
+    </div>
+
+    <div class="form">
+      <form class="form-input">
+        <input [(ngModel)]="userInput" name="userInput" class="input-field" placeholder="Search...">
+        <button class="form-button" type="submit" (click)="checkAnswer()">Submit</button>
+      </form>
+    </div>
+
+    </div>
 </div>
+
