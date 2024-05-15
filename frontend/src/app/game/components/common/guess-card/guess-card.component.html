@@ -1,43 +1,39 @@
-<app-toolbar></app-toolbar>
 <div class="container">
 
-  <div *ngIf="this.loading" class="loading-screen">
-
-    <mat-progress-spinner
-      class="loading-spinner"
-      [mode]="mode">
-    </mat-progress-spinner>
-  </div>
-
-  <div *ngIf="!this.loading" class="center">
+  <div class="center">
     <div class="time-counter">
       <h1>{{ timer }}s</h1>
     </div>
     <div class="button-div">
-    <button mat-icon-button class="button-play" (click)="play()">
-      <mat-icon *ngIf="this.playOrPause">play_arrow</mat-icon>
-      <mat-icon *ngIf="!this.playOrPause">pause</mat-icon>
-    </button>
+      <button mat-icon-button class="button-play" (click)="playAudio()">
+        <mat-icon *ngIf="playOrPause">pause</mat-icon>
+        <mat-icon *ngIf="!playOrPause">play_arrow</mat-icon>
+      </button>
     </div>
 
-    <audio #audioPlayer [src]="audioSource"></audio>
+    <audio #audioPlayer [src]="source"></audio>
 
     <div class="volume-control">
-      <button mat-icon-button (click)="volumeChange()">
+      <button mat-icon-button>
         <mat-icon class="button-volume">volume_up</mat-icon>
       </button>
       <mat-slider>
-        <input [ngModel]="volumeValue" (ngModelChange)="volumeValue = $event; volumeChange()" matSliderThumb>
+        <input [ngModel]="volumeValue" (ngModelChange)="volumeValue = $event; volumeChange(volumeValue)" matSliderThumb>
       </mat-slider>
     </div>
 
     <div class="form">
       <form class="form-input">
-        <input [(ngModel)]="userInput" name="userInput" class="input-field" placeholder="Search...">
-        <button class="form-button" type="submit" (click)="checkAnswer()">Submit</button>
+        <input name="userInput" [formControl]="myControl" [matAutocomplete]="auto" class="input-field" placeholder="Search...">
+        <mat-button-toggle class="form-button" type="submit" (click)="checkAnswer()">Submit</mat-button-toggle>
       </form>
-    </div>
 
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </div>
+  </div>
 </div>
-
+<router-outlet></router-outlet>
