@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {RouterService} from "../router/router.service";
-import {CookieService} from "ngx-cookie-service";
 import {map, Observable} from "rxjs";
+import {TokenService} from "../token/token.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class UsersService {
   private readonly detailsUrl = 'http://localhost:8080/api/v1/users/username'
   private userLogged: string = '';
 
-  constructor(private http: HttpClient, private router: RouterService, private cookie: CookieService) {
+  constructor(private http: HttpClient, private router: RouterService, private token: TokenService) {
   }
 
   save(username: string, email: string, password: string) {
@@ -41,7 +41,7 @@ export class UsersService {
       responseType: 'text'
     }).subscribe((result) => {
       const jwt = result.substring(16).replaceAll('"',"").replaceAll("}","");
-      this.cookie.set("UserDetails", jwt, {secure: true});
+      this.token.setToken(jwt)
       this.getUsername(jwt).subscribe(username => {
         this.userLogged = username;
       });
@@ -60,19 +60,11 @@ export class UsersService {
   }
 
   deleteCookies() {
-    this.cookie.delete("UserDetails");
+    this.token.deleteToken()
     this.router.redirectToMenu();
   }
 
   redirectToUser(){
     this.router.redirectToUser(this.userLogged);
   }
-
-
-  isCookiePresent(): boolean {
-    const userDetails = this.cookie.get("UserDetails");
-    return !!(userDetails && userDetails.trim() !== "");
-
-  }
-
 }
