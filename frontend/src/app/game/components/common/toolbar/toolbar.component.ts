@@ -13,6 +13,7 @@ import {InfoDialogComponent} from "../dialogs/info-dialog/info-dialog.component"
 import {StatsDialogComponent} from "../dialogs/stats-dialog/stats-dialog.component";
 import {RouterService} from "../../../service/router/router.service";
 import {UsersService} from "../../../service/users/users.service";
+import {TokenService} from "../../../service/token/token.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -38,7 +39,7 @@ import {UsersService} from "../../../service/users/users.service";
 export class ToolbarComponent implements OnInit{
 
 
-  constructor(public dialog: MatDialog, public router: RouterService, public service: UsersService) {
+  constructor(public dialog: MatDialog, public router: RouterService, public token: TokenService, public service: UsersService) {
 
   }
 

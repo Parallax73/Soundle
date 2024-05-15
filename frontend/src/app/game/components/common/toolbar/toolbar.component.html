@@ -17,11 +17,11 @@
           <mat-icon class="material-symbols-outlined">person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item  (click)="service.redirectToUser()" *ngIf="service.isCookiePresent()">Profile</button>
-          <button mat-menu-item (click)="service.deleteCookies()" *ngIf="service.isCookiePresent()">Logout</button>
+          <button mat-menu-item  (click)="service.redirectToUser()" *ngIf="token.isTokenPresent()">Profile</button>
+          <button mat-menu-item (click)="token.deleteToken()" *ngIf="token.isTokenPresent()">Logout</button>
 
-          <button mat-menu-item (click)="router.redirectToLogin()" *ngIf="!service.isCookiePresent()">Login</button>
-          <button mat-menu-item (click)="router.redirectToRegister()" *ngIf="!service.isCookiePresent()">Register</button>
+          <button mat-menu-item (click)="router.redirectToLogin()" *ngIf="!token.isTokenPresent()">Login</button>
+          <button mat-menu-item (click)="router.redirectToRegister()" *ngIf="!token.isTokenPresent()">Register</button>
 
 
         </mat-menu>
