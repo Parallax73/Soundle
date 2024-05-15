@@ -1,62 +1,72 @@
 <app-toolbar></app-toolbar>
-<div class="menu-div" [formGroup]="formGroup">
-<div class="menu-card" id="card" *ngIf="isCardVisible">
-  <div class="mob-pad fade-in-up options-pad top-margin">
-    <div class="row-option">
-      <h3 class="h-option">Choose the category you want to play</h3>
-      <div class="right-option">
-        <mat-form-field class="form">
-          <mat-select class="sel-option" formControlName="category" (selectionChange)="onChange($event.value)">
-          <mat-option *ngFor="let category of categories" [value]="category.value">{{ category.viewValue }}</mat-option>
-          </mat-select>
+<div *ngIf="loading" class="loading-screen">
+  <mat-progress-spinner class="loading-spinner" [mode]="mode"></mat-progress-spinner>
+</div>
+<div *ngIf="!hasBeenSelect">
+  <div class="menu-div" [formGroup]="formGroup">
+    <div class="menu-card" id="card" *ngIf="isCardVisible">
+      <div class="mob-pad fade-in-up options-pad top-margin">
+        <div class="row-option">
+          <h3 class="h-option">Choose the category you want to play</h3>
+          <div class="right-option">
+            <mat-form-field class="form">
+              <mat-select class="sel-option" formControlName="category" (selectionChange)="onChange($event.value)">
+                <mat-option *ngFor="let category of categories" [value]="category.value">{{ category.viewValue }}</mat-option>
+              </mat-select>
 
-          @if(formGroup.get('category').hasError('required')){
-            <mat-error>You must select an option</mat-error>
-          }
-        </mat-form-field>
+              @if(formGroup.get('category').hasError('required')){
+                <mat-error>You must select an option</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row-option">
+          <h3 class="h-option">Choose a time limit:</h3>
+          <div class="right-option">
+            <mat-form-field class="form">
+              <mat-select class="sel-option" formControlName="time">
+                <mat-option *ngFor="let time of times" [value]="time.value">{{time.viewValue}}</mat-option>
+              </mat-select>
+              @if(formGroup.get('time').hasError('required')){
+                <mat-error>You must select an option</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row-option">
+          <h3 class="h-option">How many songs or intros you want to play?</h3>
+          <div class="right-option">
+            <mat-form-field class="form">
+              <mat-select class="sel-option" formControlName="quantity">
+                <mat-option *ngFor="let quantity of quantityOptions" [value]="quantity.value">{{quantity.viewValue}}</mat-option>
+              </mat-select>
+              @if(formGroup.get('quantity').hasError('required')){
+                <mat-error>You must select an option</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row-option">
+          <h3 class="h-option"><strong>*if you chose anime, do you want to go only audio or opening video?<br></strong> (No need to mark this option if you're not playing anime category)</h3>
+          <div class="right-option">
+            <mat-form-field class="form">
+              <mat-select class="sel-option"  formControlName="anime">
+                <mat-option *ngFor="let choice of animeChoices" [value]="choice.value">{{choice.viewValue}}</mat-option>
+              </mat-select>
+              @if(formGroup.get('anime').hasError('required')){
+                <mat-error>You must select an option</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
       </div>
+      <mat-button-toggle class="row-button" (click)="onShuffleClick()">Shuffle</mat-button-toggle>
     </div>
-    <div class="row-option">
-      <h3 class="h-option">Choose a time limit:</h3>
-      <div class="right-option">
-        <mat-form-field class="form">
-          <mat-select class="sel-option" formControlName="time">
-            <mat-option *ngFor="let time of times" [value]="time.value">{{time.viewValue}}</mat-option>
-          </mat-select>
-          @if(formGroup.get('time').hasError('required')){
-            <mat-error>You must select an option</mat-error>
-          }
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row-option">
-      <h3 class="h-option">How many songs or intros you want to play?</h3>
-      <div class="right-option">
-        <mat-form-field class="form">
-          <mat-select class="sel-option" formControlName="quantity">
-            <mat-option *ngFor="let quantity of quantity" [value]="quantity.value">{{quantity.viewValue}}</mat-option>
-          </mat-select>
-          @if(formGroup.get('quantity').hasError('required')){
-            <mat-error>You must select an option</mat-error>
-          }
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row-option">
-      <h3 class="h-option"><strong>*if you chose anime, do you want to go only audio or opening video?<br></strong> (No need to mark this option if you're not playing anime category)</h3>
-      <div class="right-option">
-        <mat-form-field class="form">
-          <mat-select class="sel-option"  formControlName="anime">
-            <mat-option *ngFor="let choice of animeChoices" [value]="choice.value">{{choice.viewValue}}</mat-option>
-          </mat-select>
-          @if(formGroup.get('anime').hasError('required')){
-            <mat-error>You must select an option</mat-error>
-          }
-        </mat-form-field>
-      </div>
-    </div>
+    <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
   </div>
-  <mat-button-toggle class="row-button" (click)="onShuffleClick()">Shuffle</mat-button-toggle>
 </div>
-  <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+<div *ngIf="hasBeenSelect">
+  <app-guess-card [source]="source" [timer]="timer"></app-guess-card>
+
 </div>
+
