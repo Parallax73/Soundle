@@ -12,17 +12,17 @@ import {MatButton} from "@angular/material/button";
     NgOptimizedImage,
     MatButton
   ],
-  templateUrl: './art-card.component.html',
-  styleUrl: './art-card.component.scss'
+  templateUrl: './track-card.component.html',
+  styleUrl: './track-card.component.scss'
 })
-export class ArtCardComponent {
-/*
+export class TrackCardComponent {
+
   @Input() imageUrl!: string;
   @Input() audioUrl!: string;
   @Input() title!: string;
   @Input() artist!: string;
   @Input() album!: string;
-  @Input() streak!: number;*/
+  /*@Input() streak!: number;*/
 
 
 
