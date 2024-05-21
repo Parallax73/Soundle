@@ -34,6 +34,7 @@ public class SpotifyService {
     SpotifyResponse daysTrack;
 
 
+
     public ResponseEntity<SpotifyResponse> draw(String url){
         int index = url.lastIndexOf("/");
         String newUrl  = "https://api.spotify.com/v1/playlists" + url.substring(index) + "/tracks";
@@ -68,6 +69,24 @@ public class SpotifyService {
         String url = "https://open.spotify.com/playlist/0JiVp7Z0pYKI8diUV6HJyQ?si=56ff4692136140e1";
         this.daysTrack = draw(url).getBody();
     }
+
+    public List<String> getTrackNames(String playlistId) {
+        String url = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+        JsonNode node = getJsonProperties(url);
+
+        List<String> trackNames = new ArrayList<>();
+        JsonNode itemsNode = node.get("items");
+
+        for (JsonNode item : itemsNode) {
+            JsonNode trackNode = item.get("track");
+            if (trackNode != null) {
+                String trackName = trackNode.get("name").asText();
+                trackNames.add(trackName);
+            }
+        }
+        return trackNames;
+    }
+
 
     public ResponseEntity<SpotifyResponse> getDayTrack(){
         return ResponseEntity.status(HttpStatus.OK).body(this.daysTrack);

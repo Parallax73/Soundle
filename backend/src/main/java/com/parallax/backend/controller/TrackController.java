@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -158,5 +159,16 @@ public class TrackController {
         return ResponseEntity.status(HttpStatus.OK).body(service.drawFrom70s());
     }
 
+
+
+    @GetMapping("/animeList")
+    public ResponseEntity<?> animeList(){
+        return ResponseEntity.status(HttpStatus.OK).body(animeService.getNameList() );
+    }
+
+    @GetMapping("trackList/{url}")
+    public ResponseEntity<?> trackList(@PathVariable String url){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTrackNames(url));
+    }
 
 }

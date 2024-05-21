@@ -3,6 +3,7 @@ package com.parallax.backend.service;
 
 
 import com.parallax.backend.dto.AnimeResponse;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,13 +27,17 @@ public class AnimeService {
 
     String MAL_BY_POPULARITY1_LINK = "https://myanimelist.net/topanime.php?type=bypopularity&limit=";
     String MAL_ANIME_BY_RANKING_SELECTOR = ".anime_ranking_h3";
+    String ANIME_MOE_API_URL = "https://api.animethemes.moe/search?fields%5Bsearch%5D=anime&q=";
+    String ANIME_MOE_URL = "https://animethemes.moe/anime/";
+
+    String MOE_AUDIO_SELECTOR = "div.sc-47964127-0:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1) > a:nth-child(1)";
     List<Element> animeList = new ArrayList<>();
+    @Getter
+    List<String> nameList = new ArrayList<>();
     Random random = new Random();
 
     public ResponseEntity<AnimeResponse> draw() throws IOException {
-        String ANIME_MOE_API_URL = "https://api.animethemes.moe/search?fields%5Bsearch%5D=anime&q=";
-        String ANIME_MOE_URL = "https://animethemes.moe/anime/";
-        String MOE_AUDIO_SELECTOR = "div.sc-64f8332-0:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1)";
+
 
         String animeSlug;
         try {
@@ -68,7 +73,11 @@ public class AnimeService {
 
             Document moeSite = Jsoup.connect(ANIME_MOE_URL + slug).get();
             log.info(ANIME_MOE_URL + slug);
+
+
             Element element = moeSite.select(MOE_AUDIO_SELECTOR).first();
+
+
 
             String audioPage = ANIME_MOE_URL + element.select("a").attr("href").substring(7);
             log.info(audioPage + " AUDIOPAGE");
@@ -105,16 +114,13 @@ public class AnimeService {
             Elements elements = document.select(MAL_ANIME_BY_RANKING_SELECTOR);
             for (Element e: elements){
                 log.info(e.text());
+                nameList.add(e.text());
                 animeList.add(e);
             }
             position += 50;
 
         }
     }
-
-
-
-
 
 
 }
