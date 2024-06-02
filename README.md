@@ -18,6 +18,7 @@ Parallax Backend Service is a robust Spring Boot application designed to offer a
 Handles the retrieval of popular anime information from MyAnimeList and anime themes from AnimeThemes.moe.
 
 #### Methods
+- All methods require an authorization header with 'Bearer {token}'
 - `fillTheList()`: Populates an internal list with popular anime fetched from MyAnimeList.
 - `draw()`: Selects a random anime from the list and retrieves its theme song from AnimeThemes.moe.
 
