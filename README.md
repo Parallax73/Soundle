@@ -1,8 +1,7 @@
 # Soundle
 
 ## Overview
-Soundle is Spring Boot application designed to offer a variety of services. It facilitates interactions with MyAnimeList for anime data, Spotify for music data, and includes user authentication features. 
-
+Soundle is a guess game made with Spring Boot and Angular
 ## Technologies Used
 - **Spring Boot**: The core framework used to build the backend application.
 - **Lombok**: Utilized to minimize boilerplate code via annotations.
