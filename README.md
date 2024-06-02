@@ -1,4 +1,4 @@
-# Parallax Backend Service
+# Soundle
 
 ## Overview
 Parallax Backend Service is a robust Spring Boot application designed to offer a variety of backend services. It facilitates interactions with MyAnimeList for anime data, Spotify for music data, and includes user authentication features. The application architecture is modular, with dedicated services for each functionality.
