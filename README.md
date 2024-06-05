@@ -1,7 +1,7 @@
 # Soundle
 
 ## Overview
-Soundle is a guess game made with Spring Boot and Angular
+Soundle is a guess game made with Spring Framework and Angular
 ## Technologies Used
 - **Spring Boot**: The core framework used to build the backend application.
 - **Lombok**: Utilized to minimize boilerplate code via annotations.
